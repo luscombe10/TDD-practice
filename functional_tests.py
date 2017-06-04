@@ -21,9 +21,9 @@ class NewVisitorTest(unittest.TestCase):
         header_text = self.browser.find_element_by_tag_name("h1").text
         self.assertIn("To-Do", header_text)
         # User is prompted to input item straight away
-        inputbox = self.browser.find_element_by_tag_name("id_new_item")
+        inputbox = self.browser.find_element_by_id("id_new_item")
         self.assertEqual(
-            inputbox.get_attributre("placeholder"),
+            inputbox.get_attribute("placeholder"),
             "Enter a to-do item"
         )
         # User Types "1: go shopping" into the prompt
@@ -35,7 +35,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id("id_list_table")
         rows = table.find_elements_by_tag_name("tr")
         self.assertTrue(
-            any(row.text == "1: Go shopping" for row in rows)
+            any(row.text == "1: Go shopping" for row in rows),
+            "new to-do item does not appear in table"
         )
         # A text box to add another item is still present
         # User adds "2: Remember to pick up dry-cleaning" and enters
