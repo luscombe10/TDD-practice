@@ -1,11 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 
-import unittest
+
 import time
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -18,9 +19,10 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name("tr")
         self.assertIn(row_text, [row.text for row in rows])
 
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Check out Home page
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
         # look for correct page title and header
         self.assertIn("To-Do", self.browser.title)
         header_text = self.browser.find_element_by_tag_name("h1").text
@@ -48,5 +50,3 @@ class NewVisitorTest(unittest.TestCase):
         # Website generates a unique url for the list, it is explained
         # Once URL is visted, the list is there
         self.fail("Finish the test!")
-if __name__ == "__main__":
-    unittest.main(warnings="ignore")
