@@ -63,8 +63,9 @@ class NewVisitorTest(LiveServerTestCase):
         # User starts a new to do list
         self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id("id_new_item")
-        inputbox.send_keys("Go to the shop")
+        inputbox.send_keys("Go shopping")
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1: Go shopping")
 
         # User notices that list has a unique URL
         first_user_url = self.browser.current_url
@@ -81,7 +82,7 @@ class NewVisitorTest(LiveServerTestCase):
         # First user's list
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Go Shopping', page_text)
+        self.assertNotIn('Go shopping', page_text)
         self.assertNotIn('Go to bank', page_text)
 
         # Second user starts a new list by entering a new item.

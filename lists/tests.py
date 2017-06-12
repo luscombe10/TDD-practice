@@ -3,11 +3,8 @@ from django.urls import resolve
 from .views import home_page
 from .models import Item
 
-class HomePageTest(TestCase):
 
-    def test_root_url_resovles_to_home_page(self):
-        found = resolve("/")
-        self.assertEqual(found.func, home_page)
+class HomePageTest(TestCase):
 
     def test_home_page_returns_correct_html(self):
         response = self.client.get("/")
@@ -30,15 +27,6 @@ class HomePageTest(TestCase):
         self.client.get("/")
         self.assertEqual(Item.objects.count(),0)
 
-    def test_displays_all_list_items(self):
-        Item.objects.create(text="item 1")
-        Item.objects.create(text="item 2")
-
-        response = self.client.get("/")
-
-        self.assertIn("item 1", response.content.decode())
-        self.assertIn("item 2", response.content.decode())
-
 
 class ItemModelTest(TestCase):
 
@@ -59,5 +47,13 @@ class ItemModelTest(TestCase):
         self.assertEqual(first_saved_item.text, "The first (ever) list item")
         self.assertEqual(second_saved_item.text, "Item the second")
 
+class ListViewTest(TestCase):
 
+    def test_displays_all_items(self):
+        Item.objects.create(text="itemy 1")
+        Item.objects.create(text="itemy 2")
 
+        response = self.client.get("/lists/the-only-list-in-the-world/")
+
+        self.assertContains(response, "itemy 1")
+        self.assertContains(response, "itemy 2")
