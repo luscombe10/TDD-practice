@@ -95,7 +95,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertRegex(second_user_url, '/lists/.+')
         self.assertNotEqual(second_user_url, second_user_url)
 
-        # Again, there is no trace of Edith's list
+        # Again, there is no trace of User 1's list
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Go shopping', page_text)
         self.assertIn('Buy milk', page_text)
